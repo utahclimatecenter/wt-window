@@ -1,0 +1,5 @@
+{"success": true,
+    "payload": [
+    {"description":"States","url":"./data/get-states-data.txt?test=1", "form_field_name": "state_id", "combo_type": "multiple"},
+    {"description":"Stations","url":"./data/get-stations-data.txt?test=2", "form_field_name": "station_id", "combo_type": "regular"}
+    ]}

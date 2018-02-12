@@ -1,0 +1,25 @@
+{"success": true,
+    "payload": [{
+          "name": "address",
+          "description": "Dynamic Column #1",
+          "href": "web-components/wt-app-route-starter",
+          "hashpath": "main/report-view1/#-_id-#",
+          "edit_bootstrap_class": "col-md-4",
+          "edit_type": "input"
+        },
+        {
+          "name": "guid",
+          "description": "Dynamic Column #2",
+          "href": "",
+          "edit_bootstrap_class": "col-md-4",
+          "edit_type": "combo",
+          "edit_type_url": "/web-components/wt-app-route-starter/src/data/get-states-data.txt"
+        },{
+          "name": "_id",
+          "description": "Dynamic Column #3",
+          "href": "",
+          "edit_bootstrap_class": "col-md-4",
+          "edit_type": "multi-combo",
+          "edit_type_url": "/web-components/wt-app-route-starter/src/data/get-states-data.txt"
+        }
+    ]}

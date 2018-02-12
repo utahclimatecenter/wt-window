@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>ct-master-slave-combo test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../ct-master-slave-combo.html">
+  </head>
+  <body>
+
+    <test-fixture id="BasicTestFixture">
+      <template>
+          <ct-master-slave-combo id="master-combo" value="AL" items='[
+            {"label": "States",   "value": "/get-states-data"}, 
+            {"label": "Stations", "value": "/get-stations-data"}]'>
+          </ct-master-slave-combo>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('Init ct-master-slave-combo and check basic defaults', function() {
+
+          var combobox = fixture('BasicTestFixture');
+          var elementShadowRoot = combobox.shadowRoot;
+          var masterCombo = elementShadowRoot.querySelector('#master-combo');
+
+          test('instantiating the element with default properties works', function() {
+            assert.equal(masterCombo.id,'master-combo');
+          });
+
+          test('Checking for default values in master combo "States"', function() {
+            assert.equal(masterCombo.items[0].label,'States');
+            assert.equal(masterCombo.items[0].value,'/get-states-data');
+          });
+
+          test('Checking for default values in master combo "Stations"', function() {
+            assert.equal(masterCombo.items[1].label,'Stations');
+            assert.equal(masterCombo.items[1].value,'/get-stations-data');
+          });
+
+      });
+
+      suite('Select an item from master combo and check things.', function() {
+          var combobox = fixture('BasicTestFixture');
+          var elementShadowRoot = combobox.shadowRoot;
+          var masterCombo = elementShadowRoot.querySelector('#master-combo');
+
+          var request;
+          var server;
+          var responseHeaders = {
+            json: { 'Content-Type': 'application/json' }
+          };
+
+          setup(function() {
+            server = sinon.fakeServer.create();
+            server.respondWith(
+              'GET',
+              /\/get-states-data.*/, [
+              200,
+              responseHeaders.json,
+              '{"success": true ,"payload": [{"label":"Alabama","value":"AL"},{"label":"Alaska","value":"AK"},{"label":"Alberta","value":"AB"}]}'
+              ]
+              );
+            server.respondWith(
+              'GET',
+              /\/get-stations-data.*/, [
+              200,
+              responseHeaders.json,
+              '{"success": true, "payload": [{"label":"USU Weather Station","value":"0"},{"label":"Peter Sinks Station","value":"1"},{"label":"Logan Airport Weather Station","value":"2"}]}'
+              ]
+              );
+          });
+
+          teardown(function() {
+            server.restore();
+          });
+
+        test('Select First Item in the Master Combo', function() {
+
+          masterCombo.$.overlay.fire('selection-changed', {item: combobox.items[0]});
+          assert.equal(masterCombo.value,"/get-states-data");
+
+          var slaveAjax = elementShadowRoot.querySelector('#slave-ajax');
+          var request = slaveAjax.generateRequest();
+
+          server.respond();
+          var slaveCombo = elementShadowRoot.querySelector('#slave-combo');
+
+          //assert(slaveCombo.items[0].label,"Alabama");
+          //assert(slaveCombo.items[1].value,"AL");
+          //slaveCombo.
+          expect(request.response).to.be.ok;
+          expect(request.response).to.be.an('object');
+          expect(request.response.success).to.be.equal(true);
+
+        });
+
+        test('Select Second Item in the Master Combo', function() {
+
+          masterCombo.$.overlay.fire('selection-changed', {item: combobox.items[1]});
+          assert.equal(masterCombo.value,"/get-stations-data");
+
+          var slaveAjax = elementShadowRoot.querySelector('#slave-ajax');
+          var request = slaveAjax.generateRequest();
+
+          server.respond();
+
+          expect(request.response).to.be.ok;
+          expect(request.response).to.be.an('object');
+          expect(request.response.success).to.be.equal(true);
+
+        });
+
+      });
+
+
+    </script>
+
+  </body>
+</html>

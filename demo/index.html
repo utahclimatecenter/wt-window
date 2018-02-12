@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>Wt-Window</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../jquery/dist/jquery.min.js"></script>
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../paper-button/paper-button.html">
+    <link rel="import" href="../../wt-srch-grid/wt-srch-grid.html">
+    <link rel="import" href="../wt-window.html">
+
+</head>
+
+<body unresolved>
+  <div class="vertical-section-container centered">
+
+    <style>
+      .submit {
+          background: #4285F4;
+          color: white;
+          margin-top: 10px 3px 3px 3px;
+      }
+    </style>
+
+    <h3>wt-window</h3>
+    <p>
+      The <code>&lt;wt-window&gt;</code> is a component that implements a window
+    </p>
+    <demo-snippet>
+      <template>
+      <wt-window-demo></wt-window-demo>
+      <dom-module id="wt-window-demo">
+        <template>
+          <style>
+            .submit {
+                background: #4285F4;
+                color: white;
+                margin-top: 10px 3px 3px 3px;
+            }
+          </style>
+          <paper-button class="submit" on-click="_openWindow">Open Window</paper-button>
+          <wt-window id="win">
+            <div>
+              This is a basic window (using the slot)
+            </div>
+          </wt-window>
+        </template>
+
+        <script>
+          class WtWindowDemo extends Polymer.Element {
+            static get is() { return 'wt-window-demo'; }
+
+            static get properties() {
+              return {
+
+              }
+            }
+
+            // Element class can define custom element reactions
+            connectedCallback() {
+              super.connectedCallback();
+            }
+
+            ready() {
+                super.ready();
+            }
+
+            _openWindow(e) {
+              this.$.win.open();
+            }
+
+          }
+
+          window.customElements.define(WtWindowDemo.is, WtWindowDemo);
+        </script>
+        </dom-module>
+      </template>
+    </demo-snippet>
+
+    <h1> Example Using JQuery </h1>
+    <demo-snippet>
+      <template>
+          <paper-button id="btn" class="submit">Open Window</paper-button>
+          <wt-window id="win2">
+            <div>
+              JQuery Example: This is a basic window (using the slot)
+            </div>
+          </wt-window>
+
+        <script>
+          document.addEventListener('WebComponentsReady', function() {
+            $('#btn').on('click', function(e) {
+              console.log(e)
+              var win2 = $('#win2');
+              win2[0].open();
+            });
+          });
+        </script>
+      </template>
+    </demo-snippet>
+
+    <h1> Example:  Putting a wt-srch-grid into window</h1>
+    <demo-snippet>
+      <template>
+      <wt-window-demo3></wt-window-demo3>
+      <dom-module id="wt-window-demo3">
+        <template>
+          <style>
+            .submit {
+                background: #4285F4;
+                color: white;
+                margin-top: 10px 3px 3px 3px;
+            }
+          </style>
+          <paper-button class="submit" on-click="_openWindow3">Open Window</paper-button>
+          <wt-window id="win3">
+            <wt-srch-grid
+              id="wt-srch-grid"
+              title="wt-srch-grig example"
+              column-array='[{
+                              "index": "index",
+                              "name": "name",
+                              "description": "Name",
+                              "href": "https:\/\/www.google.com",
+                              "params": { "programId": "pa_program_id"},
+                              "sort": "asc",
+                              "target": ""
+                            },
+                            {
+                              "index": "index",
+                              "name": "address",
+                              "description": "Address",
+                              "href": "",
+                              "sort": "asc",
+                              "target": ""
+                            }
+                            ]'
+              url="./data/flat_data.txt"
+              wt-srch-bar-filter-types-url="./data/master-combo.txt"
+              wt-srch-bar-default-srch="free-text"
+              wt-srch-bar-default-srch-label="Program Search"
+              wt-srch-bar-char-min-ajax="2"
+              wt-srch-bar-hide-filter="true">
+            </wt-srch-grid>
+          </wt-window>
+        </template>
+
+        <script>
+          class WtWindowDemo3 extends Polymer.Element {
+            static get is() { return 'wt-window-demo3'; }
+
+            static get properties() {
+              return {
+
+              }
+            }
+
+            // Element class can define custom element reactions
+            connectedCallback() {
+              super.connectedCallback();
+            }
+
+            ready() {
+                super.ready();
+            }
+
+            _openWindow3(e) {
+              this.$.win3.open();
+            }
+
+          }
+
+          window.customElements.define(WtWindowDemo3.is, WtWindowDemo3);
+        </script>
+        </dom-module>
+      </template>
+    </demo-snippet>
+  </div>
+</body>
+
+
+</html>
+
+
+

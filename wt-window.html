@@ -1,0 +1,110 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+
+<link rel="import" href="../wt-bootstrap-styles/wt-bootstrap-styles.html">
+
+<!--
+`<my-station>` Shows the vaadin grid in action with iron-ajax against the climate api.
+In typical use, just slap some `<my-station>` anywhere you would like to put it.
+      <my-station></my-station>
+Wham! It's all awesome now!
+
+@demo /web-components/drawer-app/#/station/list  Super cool demo!!
+-->
+<dom-module id="wt-window">
+  <template>
+    <style include="bootstrap-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+
+      paper-dialog.colored {
+        border: 2px solid;
+        /*border-color: #000000;*/
+        /*background-color: #f7cdcd;*/
+        /*color: #ff0000;*/
+        width: 350px;
+      }
+
+      paper-button.submit {
+          background: #4285F4;
+          color: white;
+          margin-top: 10px 3px 3px 3px;
+      }
+
+      #close-dialog {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        right: -10px;
+        top: -10px;
+        background: white;
+        border: 1px solid #ededed;
+        border-radius: 50%;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+      }
+
+    </style>
+
+    <paper-dialog id="window" class="colored" closed>
+      <paper-icon-button id="close-dialog" icon="close" on-click="_handleClose"  title="Close"></paper-icon-button>
+      <slot></slot>
+    </paper-dialog>
+
+  </template>
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class WtWindow extends Polymer.Element {
+      static get is() { return 'wt-window'; }
+
+      static get properties() {
+        return {
+            closed: {
+              type: String,
+              value: "true",
+              readOnly: false       // Allow outside folks to change the items
+            }
+        }
+      }
+
+      // Element class can define custom element reactions
+      connectedCallback() {
+        super.connectedCallback();
+      }
+
+      ready() {
+          super.ready();
+      }
+
+      _handleClose() {
+        this.$.window.close();
+      }
+
+      open() {
+        this.$.window.open();
+      }
+
+      close() {
+        this.$.window.close();
+      }
+
+    }
+
+    window.customElements.define(WtWindow.is, WtWindow);
+  </script>
+</dom-module>
+
